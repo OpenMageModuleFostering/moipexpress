@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/MoipExpress",
+    "type": "magento-module",
+    "license": "GPL-v3",
+    "homepage": "",
+    "description": "A melhor e mais nova integração para a solução de pagamentos MoIP.",
+    "authors": [
+    {
+        "name": "Raul Sakai",
+        "email": "rqsakai@gmail.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

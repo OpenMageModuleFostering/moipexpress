@@ -1,0 +1,160 @@
+<?php $_code = $this->getMethodCode();?>
+<div class="moip-paygate" id="payment_form_moip" style="display:none">
+	<?php if(!$this->isBoletoValidated() && $this->isBoletoAvailable()): ?>
+		<ul class="messages"><li class="notice-msg"><ul><li><span>O pagamento por boleto esta bloqueado porque um dos produtos em seu carrinho tem estoque a baixo de <?php echo Mage::getStoreConfig('cataloginventory/item_options/notify_stock_qty') ?>.</span></li></ul></li></ul>
+	<?php endif; ?>
+	<?php echo $this->getScripts(); ?>
+	<div class="col-left">
+		<?php if($this->isCCAvailable()): ?>
+		<span data-target="cc" class="active"><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/cc.png')?>" alt="Cartã de Crédito" /><span>Cartão de Crédito</span></span>
+		<?php endif; ?>
+		<?php if($this->isBoletoAvailable() && $this->isBoletoValidated()): ?>
+		<span data-target="boleto"><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/boleto.png')?>" alt="Boleto Bancário" /><span>Boleto Bancário</span></span>
+		<?php endif; ?>
+		<?php if($this->isTransferenciaAvailable()): ?>
+		<span data-target="transferencia"><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/transf.png')?>" alt="Transferência Bancária" /><span>Transferência Bancária</span></span>
+		<?php endif; ?>
+		<input type="hidden" name="payment[moip_method]" value="cc" id="<?php echo $_code ?>_moip_method"/>
+	</div>
+	<div class="col-right">
+		<div class="safe-seal"></div>
+		<?php if($this->isCCAvailable()): ?>
+		<div data-name="cc" class="moip-payment-method active">
+			<?php if($this->getMoipSafe()): ?>
+			<ul class="form-list" id="moip-safe-form">
+				<li class="wide">
+					<label for="payment[moip_safe]" class="required"><em>*</em>Selecione um cartão ou insira um novo<i></i></label>
+					<select name="payment[moip_safe]" id="moip-safe" class="moip_safe">
+						<?php echo $this->getMoipSafe(); ?>
+					</select>
+					<input type="hidden" name="bandeira" value="" id="bandeira-safe" />
+				</li>
+				<li class="wide cvc" id="moip-safe-cvv-parent">
+					<label for="payment[safe_cvv]" class="required"><em>*</em>Código de Segurança<i></i></label>
+					<div class="input-box">
+						<input type="text" name="payment[safe_cvv]" class="required required-entry input-text" id="<?php echo $_code ?>_safe_cvv" onchange="validateCVV(this);" maxlength="4"/>
+					</div>
+					<div class="moip-tooltip">
+						?
+						<div class="tip">
+							<img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/cvv.jpg') ?>" alt=""  style="width:300px;height:auto;"/>
+						</div>
+					</div>
+				</li>
+				<li class="wide parcelas" id="moip-safe-parcelas-parent">
+					<label for="payment[safe_parcelas]" class="required"><em>*</em>Parcelas<i></i></label>
+					<div class="input-box">
+						<select name="payment[safe_parcelas]" class="required required-entry input-text" id="<?php echo $_code ?>_safe_parcelas" onchange="var value = this.value;$$('#<?php echo $_code ?>_parcelas option').each(function(o) {o.selected = o.readAttribute('value') == value;});">
+							<?php echo $this->getParcelamento(); ?>
+						</select>
+					</div>
+					<small><?php echo $this->getParcelasTexto() ?></small>
+				</li>
+			</ul>
+			<?php endif; ?>
+			<ul class="form-list"<?php if($this->getMoipSafe()): ?>style="display:none"<?php endif; ?> id="moip-new-cc-form">
+				<li class="wide cc">
+					<label for="payment[cc_number]" class="required"><em>*</em>Número do Cartão</label>
+					<div class="input-box">
+						<input type="text" placeholder="____ ____ ____ ____" name="payment[cc_number]" class="required input-text required-entry validate-cc-br" id="<?php echo $_code ?>_cc_number" maxlength="19" onblur="selectCCType(this);"/>
+					</div>
+				</li>
+				<li class="wide bandeira">
+					<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="" value="visa" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/visa.png')?>" alt="Visa" /></label>
+					<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="" value="master" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/master.png')?>" alt="Mastecard" /></label>
+					<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="" value="amex" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/amex.png')?>" alt="AmericanExpress" /></label>
+					<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="" value="diners" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/diners.png')?>" alt="DinersClub" /></label>
+					<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="" value="hiper" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/hiper.png')?>" alt="Hipercard" /></label>
+				</li>
+				<li class="wide validade">
+					<label for="payment[validade]" class="required"><em>*</em>Validade</label>
+					<div class="input-box">
+						<input type="text" name="payment[validade]" id="<?php echo $_code ?>_validade" class="required input-text required-entry validar_vencimento" placeholder="__/__" maxlength="5"/>
+					</div>
+				</li>
+				<li class="wide nome">
+					<label for="payment[creditcard_holder_name]" class="required"><em>*</em>Nome impresso no cartão</label>
+					<div class="input-box">
+						<input type="text" name="payment[creditcard_holder_name]" class="required required-entry input-text" id="<?php echo $_code ?>_creditcard_holder_name" />
+					</div>
+				</li>
+				<li class="wide cvc">
+					<label for="payment[cvv]" class="required"><em>*</em>Código de Segurança<i></i></label>
+					<div class="input-box">
+						<input type="text" name="payment[cvv]" class="required required-entry input-text validar_cvv" id="<?php echo $_code ?>_cvv" onchange="validateCVV(this);" maxlength="4"/>
+					</div>
+					<div class="moip-tooltip">
+						?
+						<div class="tip">
+							<img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/cvv.jpg') ?>" alt=""  style="width:300px;height:auto;"/>
+						</div>
+					</div>
+				</li>
+				<li class="wide parcelas">
+					<label for="payment[parcelas]" class="required"><em>*</em>Parcelas<i></i></label>
+					<div class="input-box">
+						<select name="payment[parcelas]" class="required required-entry input-text" id="<?php echo $_code ?>_parcelas">
+							<?php echo $this->getParcelamento(); ?>
+						</select>
+					</div>
+					<small><?php echo $this->getParcelasTexto() ?></small>
+				</li>
+				<li class="wide hide" style="display:none">
+					<br />
+				</li>
+				<li class="wide hide" style="display:none">
+					<label for="payment[cc_holder_cpf]" class="required"><em>*</em>CPF do titular do cartão<i></i></label>
+					<div class="input-box">
+						<input type="text" name="payment[cc_holder_cpf]" class="required required-entry input-text validar_cpf" id="<?php echo $_code ?>_cc_holder_cpf" maxlength="14" value="<?php echo Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getVatId() ?>"/>
+					</div>
+				</li>
+				<li class="wide hide" style="display:none">
+					<label for="payment[cc_holder_dob]" class="required"><em>*</em>Data de Nacimento do titular do cartão<i></i></label>
+					<div class="input-box">
+						<input type="text" name="payment[cc_holder_dob]" class="required required-entry input-text validar_dob" id="<?php echo $_code ?>_cc_holder_dob" maxlength="10" value="<?php echo date('d/m/Y',strtotime(Mage::getSingleton('customer/session')->getCustomer()->getDob())) ?>"/>
+					</div>
+				</li>
+				<li class="wide hide" style="display:none">
+					<label for="payment[cc_holder_phone]" class="required"><em>*</em>Telefone do titular do cartão<i></i></label>
+					<div class="input-box">
+						<input type="text" name="payment[cc_holder_phone]" class="required required-entry input-text" id="<?php echo $_code ?>_cc_holder_phone" maxlength="15" value="<?php echo Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getTelephone() ?>"/>
+					</div>
+				</li>
+				<li class="wide">
+					<label for="payment[cc_save]">Salvar cartão para futuras compras?<i></i></label>&nbsp;
+					<input type="checkbox" name="payment[cc_save]" class="input-checkbox" id="<?php echo $_code ?>_cc_save" value="1"/>
+				</li>
+			</ul>
+		</div>
+		<?php endif; ?>
+		<?php if($this->isBoletoAvailable() && $this->isBoletoValidated()): ?>
+		<div data-name="boleto" class="moip-payment-method" style="display:none">
+			<div>
+				<img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/bradesco-boleto.jpg');?>" alt="" class="method-logo"/>
+				<div>
+					<h4>Pagamento por boleto bancário - Bradesco</h4>
+					<?php echo $this->getTextoDescontoBoleto(); ?>
+					<p>Pagável em qualquer banco, casas lotéricas ou via internet bank. até o seu vencimento</p>
+				</div>
+			</div>
+		</div>
+		<?php endif; ?>
+		<?php if($this->isTransferenciaAvailable()): ?>
+		<div data-name="transferencia" class="moip-payment-method" style="display:none">
+			<div>
+				<h4>Transferencia online</h4>
+				<ul class="form-list">
+					<li class="wide bandeira">
+						<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="required1" value="BancoDoBrasil" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/bb.png');?>" alt="" /></label>
+						<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="required1" value="Bradesco" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/bradesco.png');?>" alt="" /></label>
+						<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="required1" value="Itau" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/itau.png');?>" alt="" /></label>
+						<label for="payment[bandeira]" class="bandeira"><input type="radio" name="payment[bandeira]" class="required1" value="Banrisul" /><img src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/banrisul.png');?>" alt="" /></label>
+					</li>
+				</ul>
+				<?php echo $this->getTextoDescontoTransferencia(); ?>
+				<p>Após finalizar o pedido você será redirecionado ao site do banco selecionado</p>
+			</div>
+		</div>
+		<?php endif; ?>
+	</div>
+</div>

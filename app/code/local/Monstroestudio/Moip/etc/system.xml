@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<config>
+   <sections>
+        <payment>
+            <groups>
+                <moip translate="label" module="moip">
+                    <label><![CDATA[MoIP Express - Monstro Estúdio  e Groh & Partners Brasil]]></label>
+                    <comment><![CDATA[<h3>Módulo Gratuito e 100% desenvolvido pela Monstro Estúdio e a Groh & Partners Brasil. Precisa de ajuda com o Módulo ou com quaisquer outros problemas e/ou melhorias na sua loja? Visite, <a href="http://monstroestudio.com.br">monstroestudio.com.br</a> e <a href="http://grohpartners.com">grohpartners.com</a></h3>]]></comment>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>01</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Ativo</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Título</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip><![CDATA[O nome fantasia usado na cobrança é o mesmo nome da loja Magento, para mudar vá em:<hr style="margin: 5px 0;border:0;border-top:1px solid #ccc;">Sistema(System) > Configurações(Configuration) > Geral(General)<hr style="margin: 5px 0;border:0;border-top:1px solid #ccc;"> Na aba 'Dados da Loja'(Store information) mude o campo 'Nome da Loja'(Store Name) ]]></tooltip>
+                            <depends><active>1</active></depends>
+                        </title>
+                        <login translate="label">
+                            <label>Login MoIP</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><active>1</active></depends>
+                        </login>
+                        <methods tranlate="label">
+                        	<label>Métodos de pagamento</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>Monstroestudio_Moip_Model_Source_Paymentmethods</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><active>1</active></depends>
+                        </methods>
+                        <parcelado translate="label">
+                            <label>Ativar Parcelamento</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><methods>cc</methods><active>1</active></depends>
+                        </parcelado>
+                        <parcelado_avista translate="label">
+                            <label>Receber Parcelado A vista?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Monstroestudio_Moip_Model_Source_Recebimento</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Padrão MoIP é receber A vista, contate o MoIP antes de mudar esta opção.</comment>
+                            <depends><methods>cc</methods><parcelado>1</parcelado><active>1</active></depends>
+                        </parcelado_avista>
+                        <numero_max_parcelas translate="label">
+                            <label>Número máximo de parcelas</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Monstroestudio_Moip_Model_Source_Ccmaxparcelas</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><methods>cc</methods><parcelado>1</parcelado><active>1</active></depends>
+                        </numero_max_parcelas>
+                        <parcela_min translate="label">
+                            <label>Valor mínimo das parcelas</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Valor mínimo é 5.</comment>
+                            <depends><methods>cc</methods><parcelado>1</parcelado><active>1</active></depends>
+                            <validate>validate-number validate-greater-than-zero </validate>
+                        </parcela_min>
+                        <parcelas_s_juros translate="label">
+                            <label>Parcela sem juros</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater </validate>
+                            <comment>Número de parcelas sem juroz. Ex: 3</comment>
+                            <depends><methods>cc</methods><parcelado>1</parcelado><active>1</active></depends>
+                        </parcelas_s_juros>
+                        <juros_parcela translate="label">
+                            <label>Juros da parcela</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater </validate>
+                            <comment>Usar padrão americano '.' no lugar da ','. Ex: 1.99</comment>
+                            <tooltip>Não é aplicado para as parcelas sem juros. </tooltip>
+                            <depends><methods>cc</methods><parcelado>1</parcelado><active>1</active></depends>
+                        </juros_parcela>
+                        <desconto_boleto>
+	                        <label>Desconto no boleto</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater </validate>
+                            <depends><active>1</active></depends>
+                            <comment>refere-se a % de desconto. Obs: não utilizar o simbolo de % e utilizar '.' no lugar da ','</comment>
+                        </desconto_boleto>
+                        <tipo_vencimento_boleto>
+	                        <label>Tipo de contagem de dias para vencimento do boleto</label>
+	                        <frontend_type>select</frontend_type>
+                            <source_model>Monstroestudio_Moip_Model_Source_Tipovencboleto</source_model>
+                            <sort_order>109</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><active>1</active></depends>
+                        </tipo_vencimento_boleto>
+                        <vencimento_boleto>
+	                        <label>Dias para vencimento do boleto</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater </validate>
+                            <depends><active>1</active></depends>
+                        </vencimento_boleto>
+                        <instrucao_boleto>
+	                        <label>Instrução a ser inserida no boleto</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>115</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate></validate>
+                            <depends><active>1</active></depends>
+                            <comment><![CDATA[<strong style="color:red;">Não utilizar html!!!</strong>]]></comment>
+                        </instrucao_boleto>
+
+                        <bloquear_boleto_estoque translate="label">
+                            <label>Bloquear pagamento com boleto para produtos com baixo estoque?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Bloqueia todo o carrinho caso um produto esteja abaixo do estoque mínimo. Mais infomações no tooltip ao lado ------> ?</comment>
+                            <tooltip><![CDATA[Usamos as configurações de alerta de produto de baixo estoque do Magento, para muda-as vá em:<hr style="margin: 5px 0;border:0;border-top:1px solid #ccc;">Sistema(System) > Configurações(Configuration) > Estoque(Inventory)<hr style="margin: 5px 0;border:0;border-top:1px solid #ccc;">Na aba 'Opções de Estoque'(Stock Options) mude o valor do campo 'Notificar quantidade abaixo de'(Notify for Quantity Below) para o valor desejado.]]></tooltip>
+                            <depends><methods>cc</methods><parcelado>1</parcelado><active>1</active></depends>
+                        </bloquear_boleto_estoque>
+                        <desconto_transf>
+	                        <label>Desconto na transferência bancária</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>175</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater </validate>
+                            <depends><active>1</active></depends>
+                            <comment>refere-se a % de desconto. Obs: não utilizar o simbolo de % e utilizar '.' no lugar da ','</comment>
+                        </desconto_transf>
+                        <test translate="label">
+                            <label>Sandbox?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Usar somente caso a conta seja Sandbox.</comment>
+                            <tooltip>Os pagamentos feitos em Sandbox não tem valor monetário real e são destinados somente para testes.</tooltip>
+                            <depends><active>1</active></depends>
+                        </test>
+                   </fields>
+                </moip>
+            </groups>
+        </payment>
+    </sections>
+</config>

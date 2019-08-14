@@ -1,0 +1,117 @@
+<div class="row">
+	<div class="col50">
+		<h1>Compra #<?php echo $this->getOrderId() ?> Realizada com sucesso</h1>
+		<div id="retorno-moip" style="dislay:none;">
+			<h4>Status do pagamento: <span id="statusPagamento"></span></h3>
+			<h4 id="codigoMoip">Código MoIP: <span id="codigoMoipValue"></span></h3>
+			<h4 id="bandeiraMoip" style="display:none;">Bandeira: <span id="bandeiraMoipValue"></span></h3>
+			<h4 id="parcelasMoip" style="display:none;">Parcelas: <span id="parcelasMoipValue"></span></h3>
+			<h4 id="error-moip" style="display:none">Menssagem de erro: <span id="errorMessage"></span></h4>
+		</div>
+	</div>
+	<div class="col50">
+		<div id="shipping">
+			<h4>Frete:</h4>
+			<p><?php echo $this->getShippingDescription(); ?></p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col50">
+		<h4 class="payment-method-name">Forma de pagamento: <strong><span id="moip-method"></span></strong></h4>
+		<?php if($this->getPaymentMethod() == 'boleto'): ?>
+		<div class="row">
+			<img class="payment-method-img" src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/printer.png') ?>" alt="" /><button id="pagarBoleto" class="moip-payment-button" onclick="boleto();">Imprimir Boleto</button>
+		</div>
+		<div class="row">
+			<div class="moip-alert">Pagavél em qualquer banco, casa lotérica ou via internet bank, até seu vencimento.</div>
+			<div class="moip-alert">O boleto estará disponivél, apenas, através do site ou por email</div>
+		</div>
+		<script type="text/javascript">
+			function boleto(){
+				var modal = new Window({ className:'moip-modal',title: "Imprima o seu boleto", zIndex:3000,url: $('moip-url').innerHTML,destroyOnClose: true, recenterAuto:false, resizable: false, width:700, height:473, minimizable: false, maximizable: false, draggable: false});
+				modal.showCenter(true);
+			}
+		</script>
+		<?php endif; ?>
+		<?php if($this->getPaymentMethod() == 'transferencia'): ?>
+		<div class="row">
+			<img class="payment-method-img" src="<?php echo $this->getSkinUrl('monstroestudio/moip/images/transferencia-icon.png') ?>" alt="" /><a id="pagarTransferencia" class="moip-payment-button" href="" target="_blank">Ir ao site do meu banco</a>
+		</div>
+		<div class="row">
+			<div class="moip-alert">Clique no Botão acima para efetuar o pagamento diretamente no site do seu banco</div>
+		</div>
+		<?php endif; ?>
+	</div>
+	<div class="col50">
+		<div id="items">
+			<?php echo $this->getChildHtml('sales.order.view'); ?>
+			<p>Caso exista um item de nome "Taxas" ele se refere ao juros do parcelamento do cartão de crédito.</p>
+		</div>
+	</div>
+</div>
+
+<div id="moip-url" style="display:none;"></div>
+<div id="MoipWidget" data-token="<?php echo $this->getToken() ?>" callback-method-success="FUNCAO_DE_SUCESSO" callback-method-error="FUNCAO_DE_FALHA"></div>
+
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('monstroestudio/moip/js/jquery.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getMoipUrl() ?>/transparente/MoipWidget-v2.js" charset="ISO-8859-1"></script>
+<script type="text/javascript">
+	var settings = <?php echo $this->getMoipJson() ?>;
+	if(settings.Forma == undefined){
+		document.location = '<?php echo $this->getUrl() ?>';
+	}else{
+		window.onbeforeunload = function (e) {
+			e = e || window.event;
+			if(e){
+			    e.returnValue = 'Ao recarregar está pagina você sera redirecionado para a home do site';
+			}
+			return 'Ao recarregar está pagina você sera redirecionado para a home do site';
+		};
+	}
+	MoipWidget(settings);
+
+	var FUNCAO_DE_SUCESSO = function(data){
+		console.log(data);
+		if(data.url){
+			$('moip-url').innerHTML = data.url;
+		}
+		$('retorno-moip').slideDown();
+		$('moip-method').innerHTML = settings.Forma;
+		if(data.Status){
+			$('statusPagamento').innerHTML = data.Status;
+		}else{
+			$('statusPagamento').innerHTML = data.StatusPagamento;
+		}
+		if(data.CodigoMoIP){
+			$('codigoMoipValue').innerHTML = data.CodigoMoIP;
+		}else{
+			$('codigoMoip').hide();
+		}
+		if(settings.Forma  !== 'CartaoCredito'){
+
+			$('pagarTransferencia').href = data.url;
+		}else{
+			if(data.Parcelas){
+				$('parcelasMoip').show();
+			}
+			if(data.Instituicao){
+				$('bandeiraMoip').show();
+			}
+			$('parcelasMoipValue').innerHTML = data.Parcelas;
+			$('bandeiraMoipValue').innerHTML = data.Instituicao;
+		}
+
+		console.log(data);
+    };
+
+    var FUNCAO_DE_FALHA = function(data) {
+		console.log(data);
+		$('moip-method').innerHTML = settings.Forma;
+		$('retorno-moip').slideDown();
+		$('error-moip').show();
+		$('codigoMoip').innerHTML = data.Codigo;
+		$('statusPagamento').innerHTML = data.StatusPagamento;
+		$('errorMessage').innerHTML = data.Mensagem;
+     };
+</script>

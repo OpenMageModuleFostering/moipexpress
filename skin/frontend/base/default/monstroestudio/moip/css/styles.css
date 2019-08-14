@@ -1,0 +1,64 @@
+.moip-paygate{display:block;clear:both;width:100%;margin-bottom:20px;float: left;min-width:500px;}
+.moip-paygate > div{display:block;float:left;clear:none;margin:0;padding:0;}
+.moip-paygate > div.col-left{width:30%;min-width:185px;}
+.moip-paygate > div.col-left > span{display:block;cursor:pointer;float:left;width:100%;;cleaR:both;background:#fff;color:#333;padding: 10px 0;border:1px solid #f0f0f0;border-radius: 5px 0 0 5px;-webkit-border-radius: 5px 0 0 5px;-moz-border-radius: 5px 0 0 5px;-o-border-radius: 5px 0 0 5px;-ms-border-radius: 5px 0 0 5px;transition: all 0.3s ease;-webkit-transition: all 0.3s ease;-o-transition: all 0.3s ease;-moz-transition: all 0.3s ease;-ms-transition: all 0.3s ease;line-height:28px;}
+.moip-paygate > div.col-left > span:hover{background:#f9f9f9;}
+.moip-paygate > div.col-left > span.active{background:#f0f0f0;margin-left:-10px;padding-right:10px;}
+.moip-paygate > div.col-left > span > span{float:left; margin-left:15px;}
+.moip-paygate > div.col-left > span > img{float:right;height:100%;width: auto;max-height: 28px;margin-right: 10px;margin-top: 3%;}
+
+.moip-paygate > div.col-right{width:70%;min-width:325px;background:#f0f0f0;padding:15px 0;border-radius:0 5px 5px 5px;-webkit-border-radius:0 5px 5px 5px;-moz-border-radius:0 5px 5px 5px;-ms-border-radius:0 5px 5px 5px;-o-border-radius:0 5px 5px 5px;}
+.moip-paygate > div.col-right .moip-payment-method{padding:0 10px;margin:0;overflow:hidden;}
+.moip-paygate > div.col-right .moip-payment-method.active{display:block;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li{transition: all 0.3s ease;-webkit-transition: all 0.3s ease;-o-transition: all 0.3s ease;-moz-transition: all 0.3s ease;-ms-transition: all 0.3s ease;height:auto;position:relative;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.hide{}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.bandeira > label{display:block;float:left;margin-right:5px;text-align:center;cursor:pointer;width: 23%;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.bandeira > label img{clear:both;display:block;margin-top:2px;transition: all 0.3s ease;-webkit-transition: all 0.3s ease;-o-transition: all 0.3s ease;-moz-transition: all 0.3s ease;-ms-transition: all 0.3s ease;width:100%;height:auto;-webkit-filter: grayscale(0.8);-moz-filter: grayscale(0.8);-o-filter: grayscale(0.8);filter: grayscale(0.8);}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.bandeira > label img.active{opacity:1;-webkit-filter: grayscale(0);-moz-filter: grayscale(0);-o-filter: grayscale(0);filter: grayscale(0);}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.bandeira > label div{width:400%;text-align:left;}
+.moip-paygate > div.col-right .moip-payment-method[data-name="cc"] ul.form-list > li.bandeira > label{width:10%;max-width:45px;}
+.moip-paygate > div.col-right .moip-payment-method[data-name="cc"] ul.form-list > li.bandeira > label div{width:500%;}
+
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li .moip-tooltip{position:absolute;display:block;background: #000;color:#fff;border-radius: 50px; padding: 2px 8px;display:block;left:170px;cursor:pointer;margin-top: 2.5%;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li .moip-tooltip .tip{position:absolute;display:none;top: -220px;width:200px;background:#fff;color:#000;padding: 10px;border-radius:10px;box-shadow:0px 0px 5px #666;margin-top:-30px;left:-7px;z-index:999;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li .moip-tooltip .tip img{width:100% !important;height:auto;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li .moip-tooltip:hover .tip{display:block;}
+
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide .input-text, .moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide select{width:262px;padding: 5px 0;text-indent:10px;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide select{display:block;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide.cc .input-text{padding: 13px 0;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide.validade label{cleaR:none; float:lefT;width:auto;padding-top:5px;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide.validade .input-box{cleaR:none;float:lefT;width:auto;margin-left:15px;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide.validade .input-box .input-text{width:50px;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide.cvc{position:relative;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide.cvc label{cleaR:none; float:lefT;width:57px;padding-top:5px;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide.cvc .input-box{cleaR:none;float:lefT;width:auto;margin-left:15px;}
+.moip-paygate > div.col-right .moip-payment-method ul.form-list > li.wide.cvc .input-box .input-text{width:80px;padding: 13px 0;}
+
+.moip-paygate > div.col-right .moip-payment-method[data-name="boleto"] > div{min-height:138px;}
+.moip-paygate > div.col-right .moip-payment-method[data-name="boleto"] > div > img{float: right;margin-right: 1%;width:20%}
+.moip-paygate > div.col-right .moip-payment-method[data-name="boleto"] > div > div{float:left;width: 75%;}
+.moip-paygate > div.col-right .moip-payment-method[data-name="boleto"] > div > div p.desconto{font-size:11pt}
+
+.moip-paygate > div.col-right .moip-payment-method p.desconto{font-size:11pt}
+
+/* redirect */
+.moip-checkout-authorize .row{clear:both;width:100%;padding:0;margin:0 0 1em 0;float: left;}
+.moip-checkout-authorize .row .col50{float:left;display:block;width:50%;margin:0;padding:0;}
+.moip-checkout-authorize .payment-method-img{float:left;margin:3px 10px 0 0;}
+.moip-checkout-authorize .moip-payment-button{display:block;text-transform: uppercase;font-size: 1.1em;background:#1a4c7c;padding: 0.5em 1em;border-radius: 4px; border:0;border-bottom: 3px solid #000;color: #fff;float: left;line-height: 1;cursor: pointer;text-decoration: none !important;}
+.moip-checkout-authorize .moip-alert{color:#f00;width:100%;max-width:250px;font-size:0.9em;padding-left:25px;background:url(../images/moip-warning.png) no-repeat left center;margin: 1em 0;}
+
+.moip-checkout-authorize .dialog{background:#fff;bordeR: 1px solid #999; border-radius: 6px;overflow: hidden;box-shadow: 0 0 10px rgba(0,0,0,0.5);}
+.moip-checkout-authorize .dialog .moip-modal_close{background:none;margin:0;padding:0;left: 100%;float: right;cursor: pointer;}
+.moip-checkout-authorize .dialog .moip-modal_close:after{content:"x"; font-size: 20px;font-weight: bold;line-height: 28px;color: #000000;text-shadow: 0 1px 0 #ffffff;opacity: 0.2;font-weight: bold;margin-left: -1.3em;margin-top: 0.3em;float:lefT;}
+.moip-checkout-authorize .dialog .top.table_window{border-bottom: 1px solid #ccc;}
+.moip-checkout-authorize .dialog .top.table_window,
+.moip-checkout-authorize .dialog .top.table_window  tr td{border:0;background:0;}
+.moip-checkout-authorize .dialog .moip-modal_title{text-align:center;font-size:1.4em;color:#444;font-weight:lighter;height: auto;padding: 0.5em 0;border-bottom:1px solid #ccc;color: #666;}
+.moip-checkout-authorize .dialog .bot.table_window{display:none;}
+.moip-checkout-authorize .dialog table.table_window td ,.moip-checkout-authorize .dialog table.table_window th { padding: 0; background: #fff;border: 0;}
+.moip-checkout-authorize .dialog .mid .moip-modal_w,
+.moip-checkout-authorize .dialog .mid .moip-modal_e{padding: 1em;}
+
+.moip-checkout-authorize .order-items .buttons-set{display:none;}
